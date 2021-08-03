@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(AlexandrescuSort )
+project(AlexandrescuIsGood)
 
-set(SOURCE_FILES
-  src/main.cpp
-)
+if (WIN32)
+  # set startup project for VisualStudio
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT app)
+endif()
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_subdirectory(app)
