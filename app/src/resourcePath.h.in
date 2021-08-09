@@ -1,0 +1,5 @@
+#pragma once
+
+const char* mission1File = "@MAP_FILES_LOCATION@/mission01.txt";
+const char* mission2File = "@MAP_FILES_LOCATION@/mission02.txt";
+const char* mission3File = "@MAP_FILES_LOCATION@/mission03.txt";
