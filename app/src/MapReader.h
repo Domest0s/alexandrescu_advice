@@ -19,29 +19,39 @@ struct Point2i
 class Map
 {
 public:
-  Map(size_t dim1, size_t dim2, std::vector<int>&& data)
-    : m_dim1(dim1)
-    , m_dim2(dim2)
+  Map(size_t height, size_t width, std::vector<int>&& data)
+    : m_height(height)
+    , m_width(width)
     , m_data(std::move(data))
   {
-    assert(m_data.size() == dim1 * dim2);
+    assert(m_data.size() == height * width);
   }
 
-  int operator()(size_t a, size_t b) const
+  int operator()(size_t x, size_t y) const noexcept
   {
-    assert(a <= m_dim1);
-    assert(b <= m_dim2);
-    return m_data[b * m_dim2 + a];
+    assert(x <= m_width);
+    assert(y <= m_height);
+    return m_data[y * m_width + x];
   }
+  
+  size_t height() const noexcept { return m_height; }
+  size_t width() const noexcept { return m_width; }
 
 private:
-  size_t m_dim1;
-  size_t m_dim2;
+  size_t m_height;
+  size_t m_width;
   std::vector<int> m_data;
 };
-}
 
-john::Map readMap(const std::string& filePath)
+
+struct MapStartEnd
+{
+  john::Map map;
+  john::Point2i start;
+  john::Point2i finish;
+};
+
+MapStartEnd readMap(const std::string& filePath)
 {
   std::ifstream ifs(filePath, std::ios_base::in);
 
@@ -65,30 +75,37 @@ john::Map readMap(const std::string& filePath)
   //ifs.ignore(1, '\n');
 
   // read map size, format %ix%i
-  size_t mapWidth = 0;
-  ifs >> mapWidth;
+  size_t mapHeight = 0;
+  ifs >> mapHeight;
 
   assert('x' == ifs.peek());
   ifs.ignore(1, 'x');
 
-  size_t mapHeight = 0;
-  ifs >> mapHeight;
+  size_t mapWidth = 0;
+  ifs >> mapWidth;
+
+  ifs.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // finish this line
 
   std::vector<int> data;
   data.reserve(mapWidth * mapHeight);
-  while (ifs.good() && !ifs.eof())
+  for (int i = 0; i < mapHeight; i++)
   {
+    assert(ifs.good() && !ifs.eof());
     constexpr size_t BUF_SIZE = 256;
     assert(BUF_SIZE > mapWidth);
     char buffer[BUF_SIZE] = {0};
+
     ifs.getline(buffer, BUF_SIZE);
-    std::cout << buffer << "\n";
-    
-    for (size_t i = 0; i < strlen(buffer); i++)
+    //std::cout << buffer << "\n";
+    assert(strlen(buffer) == mapWidth);
+
+    for (size_t ci = 0; ci < strlen(buffer); ci++)
     {
-      data.push_back(buffer[i] - '0');
+      data.push_back(buffer[ci] - '0');
     }
   }
 
-  return john::Map(mapWidth, mapHeight, std::move(data));
+  return { john::Map(mapHeight, mapWidth, std::move(data)), start, finish};
+}
+
 }

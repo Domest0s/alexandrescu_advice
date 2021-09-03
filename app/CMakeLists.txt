@@ -13,6 +13,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/resourses
 set(SOURCE_FILES
   src/main.cpp
   src/MapReader.h
+  src/vt100.h
   src/resourcePath.h.in
 )
 
