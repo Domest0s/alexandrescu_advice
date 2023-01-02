@@ -1,7 +1,4 @@
 #pragma once
-#pragma once
-
-
 
 #define COL_RESET "\033[0m"
 //<ESC>[30m Black(black)
