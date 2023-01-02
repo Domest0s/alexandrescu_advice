@@ -15,4 +15,10 @@ if (WIN32)
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT app)
 endif()
 
+# enable feature "folders" so that we can group targets in IDE 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# enable testing
+enable_testing()
+
 add_subdirectory(core)
