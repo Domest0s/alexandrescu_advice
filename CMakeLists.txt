@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.25)
 
-project(AlexandrescuIsGood)
+project(alexandrescu_is_good)
 
 # set warning level globabaly
 if (MSVC)
@@ -15,4 +15,4 @@ if (WIN32)
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT app)
 endif()
 
-add_subdirectory(app)
+add_subdirectory(core)
