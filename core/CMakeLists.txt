@@ -12,3 +12,5 @@ set(CMAKE_FOLDER)
 
 # enumerate projects
 add_subdirectory(app)
+add_subdirectory(sort_alexandrescu)
+add_subdirectory(sort_alexandrescu_test)
