@@ -3,7 +3,10 @@
 #include <cstdio>
 #include <cstdint>
 
+#include <algorithm>
+
 void alex_sort(int32_t* arr, size_t size)
 {
-	printf("hi man! \n");
+	// fake it for now
+	std::sort(arr, arr + size);
 }
