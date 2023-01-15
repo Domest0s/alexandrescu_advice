@@ -3,6 +3,7 @@
 
 #include "vt100.h"
 #include "sorter.h"
+#include "rnum_generator.hpp"
 
 
 struct SortJobDescription
@@ -19,6 +20,8 @@ int main(int argc, char* argv[])
         {"quick_sort", alex_sort},
         {"Alex_sort", alex_sort}
     };
+
+
 
 
     return 0;

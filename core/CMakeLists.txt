@@ -11,8 +11,10 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_FOLDER)
 
 # enumerate projects
-add_subdirectory(app)
+add_subdirectory(vt100)
+add_subdirectory(utils)
+
 add_subdirectory(sort_alexandrescu)
 add_subdirectory(sort_alexandrescu_test)
 add_subdirectory(job_runner)
-add_subdirectory(vt100)
+add_subdirectory(app)

@@ -6,6 +6,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         gtest_main
         sort_alexandrescu
+        utils
 )
 
 # add executable to ctest suit
