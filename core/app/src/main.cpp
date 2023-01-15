@@ -27,6 +27,7 @@ std::vector<uint32_t> generateRandomNumbers(uint32_t numOfElements) noexcept
   return result;
 }
 
+
 std::string getMapAsString(const john::Map& map)
 {
   std::stringstream result;

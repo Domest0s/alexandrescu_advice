@@ -13,7 +13,6 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/resourses
 set(SOURCE_FILES
   src/main.cpp
   src/MapReader.h
-  src/vt100.h
   src/resourcePath.h.in
 )
 
@@ -22,6 +21,10 @@ add_executable(${PROJECT_NAME}
   ${map_example_files}
 )
 
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        vt100
+)
 
 set(MAP_FILES_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/resourses)
 configure_file(src/resourcePath.h.in resourcePath.h @ONLY)
