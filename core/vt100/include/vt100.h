@@ -35,7 +35,7 @@ enum class Color
     White
 };
 
-char* color(Color col)
+const char* color(Color col)
 {
     switch (col)
     {

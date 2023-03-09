@@ -14,15 +14,12 @@ struct SortJobDescription
     Sorter sorter;
 };
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
     std::vector<SortJobDescription> sortSeries{
         {"quick_sort", alex_sort},
         {"Alex_sort", alex_sort}
     };
-
-
-
 
     return 0;
 }

@@ -2,4 +2,5 @@
 
 #include <cstdint>
 
-void alex_sort(int32_t* arr, size_t size);
+void alex_sort(int32_t* arr, std::size_t size);
+

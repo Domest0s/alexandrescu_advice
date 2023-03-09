@@ -17,7 +17,7 @@ std::vector<uint32_t> generateRandomNumbers(uint32_t numOfElements) noexcept
   std::random_device rd;
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with
   std::uniform_int_distribution<> distrib(1, 10);
-  
+
   std::vector<uint32_t> result(numOfElements);
   for (uint32_t i = 0; i < numOfElements; ++i)
   {
@@ -51,8 +51,8 @@ void renderPoint(john::Point2i point,
   // first move it on the map
   printf(MOVE_UP(1));
 
-  assert(point.x < map.width());
-  assert(point.y < map.height());
+  assert(point.x < static_cast<int>(map.width()));
+  assert(point.y < static_cast<int>(map.height()));
   // move to the location
   // MOVE_UP();
   printf("%s%s%s%c",
@@ -60,7 +60,7 @@ void renderPoint(john::Point2i point,
     vt100::move_up(point.y).c_str(),
     vt100::move_forward(point.x).c_str(),
     letter);
-  
+
   // move back to where we started
   printf("%s\r", vt100::move_down(point.y + 1).c_str());
   printf(COL_RESET);
@@ -82,7 +82,7 @@ void renderMap(const john::Map& map, john::Point2i start, john::Point2i end)
 int main(int /*argc*/, char* /*argv*/[])
 {
   //std::vector<uint32_t> randNumbers = generateRandomNumbers(10);
-    
+
   john::MapStartEnd task = john::readMap(mission1File);
   john::Map map = task.map;
   john::Point2i start = task.start;

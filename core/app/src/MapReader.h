@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include <array>
 #include <cassert>
 #include <fstream>
@@ -33,7 +34,7 @@ public:
     assert(y <= m_height);
     return m_data[y * m_width + x];
   }
-  
+
   size_t height() const noexcept { return m_height; }
   size_t width() const noexcept { return m_width; }
 
@@ -88,7 +89,7 @@ MapStartEnd readMap(const std::string& filePath)
 
   std::vector<int> data;
   data.reserve(mapWidth * mapHeight);
-  for (int i = 0; i < mapHeight; i++)
+  for (size_t i = 0; i < mapHeight; i++)
   {
     assert(ifs.good() && !ifs.eof());
     constexpr size_t BUF_SIZE = 256;
@@ -97,9 +98,9 @@ MapStartEnd readMap(const std::string& filePath)
 
     ifs.getline(buffer, BUF_SIZE);
     //std::cout << buffer << "\n";
-    assert(strlen(buffer) == mapWidth);
+    assert(std::strlen(buffer) == mapWidth);
 
-    for (size_t ci = 0; ci < strlen(buffer); ci++)
+    for (size_t ci = 0; ci < std::strlen(buffer); ci++)
     {
       data.push_back(buffer[ci] - '0');
     }
@@ -108,4 +109,4 @@ MapStartEnd readMap(const std::string& filePath)
   return { john::Map(mapHeight, mapWidth, std::move(data)), start, finish};
 }
 
-}
+} // namespace john
