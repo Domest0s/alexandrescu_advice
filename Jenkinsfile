@@ -9,12 +9,12 @@ pipeline {
             }
         }
         
-        stage('checkout sources') {
-            agent any
-            steps {
-                checkout scm
-            }
-        }
+        // stage('checkout sources') {
+        //     agent any
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
         
         stage('configure') {
             agent { label 'linux' }
