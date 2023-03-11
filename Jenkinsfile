@@ -11,8 +11,6 @@ pipeline {
             agent any
             steps {
                 // sh "rm -rf *"
-                sh "ls"
-                sh "pwd"
                 sh "./linux/clean.sh"
             }
         }
@@ -27,21 +25,21 @@ pipeline {
         stage('configure') {
             agent { label 'linux' }
             steps {
-                sh "./alexandrescu_advice/linux/generate.sh"
+                sh "./linux/generate.sh"
             }
         }
 
         stage('build') {
             agent { label 'linux' }
             steps {
-                sh "./alexandrescu_advice/linux/build.sh"
+                sh "./linux/build.sh"
             }
         }
         
         stage('test') {
             agent { label 'linux' }
             steps {
-                sh "./alexandrescu_advice/linux/test.sh"
+                sh "./linux/test.sh"
             }
         }
     }
