@@ -1,21 +1,28 @@
 pipeline {
     agent none
     
+    // options {
+    //     // This is required if you want to clean before build
+    //     skipDefaultCheckout(true)
+    // }
+
     stages {
         stage('clear workspace') {
             agent any
             steps {
+                // sh "rm -rf *"
+                sh "ls"
                 sh "pwd"
-                // sh "rm -rf alexandrescu_advice"
+                sh "./linux/geberate.sh"
             }
         }
         
-        // stage('checkout sources') {
-        //     agent any
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
+        stage('checkout') {
+            agent any
+            steps {
+                checkout scm
+            }
+        }
         
         stage('configure') {
             agent { label 'linux' }
