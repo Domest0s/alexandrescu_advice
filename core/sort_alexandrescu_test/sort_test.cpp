@@ -16,7 +16,4 @@ TEST (One, Two)
 
     // Assert
     EXPECT_TRUE(std::is_sorted(arr.begin(), arr.end()));
-
-    // yep
-    EXPECT_TRUE(false);
 }
