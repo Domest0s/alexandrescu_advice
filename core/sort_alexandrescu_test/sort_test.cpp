@@ -6,7 +6,6 @@
 #include "sorter.h"
 #include "rnum_generator.hpp"
 
-
 TEST (One, Two)
 {
     std::vector<int32_t> arr = generateRandomArray(10);
@@ -17,4 +16,7 @@ TEST (One, Two)
 
     // Assert
     EXPECT_TRUE(std::is_sorted(arr.begin(), arr.end()));
+
+    // yep
+    EXPECT_TRUE(false);
 }
