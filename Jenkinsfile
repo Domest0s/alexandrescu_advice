@@ -5,7 +5,8 @@ pipeline {
         stage('clear workspace') {
             agent any
             steps {
-                sh "rm -rf alexandrescu_advice"
+                sh "pwd"
+                // sh "rm -rf alexandrescu_advice"
             }
         }
         
