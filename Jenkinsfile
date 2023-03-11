@@ -5,21 +5,15 @@ pipeline {
     }
 
     stages {
-        stage('clear workspace') {
+        stage('checkout & clean') {
             agent any
             steps {
                 // sh "rm -rf *"
+                checkout scm
                 sh "./linux/clean.sh"
             }
         }
-        
-        // stage('checkout') {
-        //     agent any
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
-        
+
         stage('configure') {
             agent { label 'linux' }
             steps {
@@ -33,7 +27,7 @@ pipeline {
                 sh "./linux/build.sh"
             }
         }
-        
+
         stage('test') {
             agent { label 'linux' }
             steps {
