@@ -13,16 +13,16 @@ pipeline {
                 // sh "rm -rf *"
                 sh "ls"
                 sh "pwd"
-                sh "./linux/geberate.sh"
+                sh "./linux/clean.sh"
             }
         }
         
-        stage('checkout') {
-            agent any
-            steps {
-                checkout scm
-            }
-        }
+        // stage('checkout') {
+        //     agent any
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
         
         stage('configure') {
             agent { label 'linux' }
