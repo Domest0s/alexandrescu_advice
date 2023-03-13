@@ -2,12 +2,12 @@
 setlocal
 
 :: this .bat file location
-set workDir=%~pd0
-set workDir=%workDir:~0,-1%
+set work_dir=%~pd0
+set work_dir=%work_dir:~0,-1%
 
-@REM echo setting up environment with %workDir%\setup_env.bat
-call %workDir%\setup_env.bat
+@REM echo setting up environment with %work_dir%\setup_env.bat
+call %work_dir%\setup_env.bat
 
-cmake -S %workDir%\%source_dir% -B %workDir%\%build_dir%
+cmake -S %source_dir% -B %build_dir%
 
 endlocal
