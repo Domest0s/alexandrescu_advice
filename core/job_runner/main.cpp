@@ -54,7 +54,7 @@ int main(int /*argc*/, char* /*argv*/[])
 
     for (const SortJobDescription& desc : sortSeries)
     {
-        resutls.push_back({ desc.name });
+        resutls.emplace_back(desc.name);
         RunSequenceScore& sequence = resutls.back();
 
         const SortJobDescription::Sorter theSort = desc.sorter;

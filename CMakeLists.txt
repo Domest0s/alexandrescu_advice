@@ -2,9 +2,13 @@ cmake_minimum_required(VERSION 3.25)
 
 project(alexandrescu_is_good)
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED yes)
+set(CMAKE_CXX_EXTENSIONS no)
+
 # set warning level globabaly
 if (MSVC)
-    add_compile_options(/W3)
+    add_compile_options(/W4)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic -Werror)
