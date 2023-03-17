@@ -27,7 +27,13 @@ struct RunSequenceScore
         {}
     };
 
-    std::string name;
+    RunSequenceScore(const char* name_in,
+        const std::vector<RunScore>& runs_in = {})
+        : name(name_in)
+        , runs(runs_in)
+    {}
+
+    const char* name;
     std::vector<RunScore> runs;
 };
 
