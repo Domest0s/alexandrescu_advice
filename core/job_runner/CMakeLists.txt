@@ -1,8 +1,13 @@
 project(job_runner)
 
-add_executable(${PROJECT_NAME} main.cpp)
+set(SOURCE_FILES
+    main.cpp
+)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
 target_link_libraries(${PROJECT_NAME}
-        sort_alexandrescu
-        vt100
-        utils
+    sort_alexandrescu
+    vt100
+    utils
 )

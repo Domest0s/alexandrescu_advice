@@ -1,7 +1,10 @@
 #include <cassert>
+#include <cstdint>
+
+#include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <iomanip>
-#include <algorithm>
 #include <ranges>
 #include <vector>
 
@@ -29,39 +32,37 @@ public:
         , m_results(names.size() * n_runs.size(), 0)
     {}
 
-    void set(const char* name, size_t n_run, size_t time)
-    {
-        // find vertical position in the table
-        auto it_name = std::find(m_row_names.begin(), m_row_names.end(), name);
-        assert(it_name != m_row_names.end());
-        const size_t name_pos = it_name - m_row_names.begin();
-
-        // find horizontal position in the table
-        auto it_N = std::find(m_column_n_runs.begin(), m_column_n_runs.end(), n_run);
-        assert(it_N != m_column_n_runs.end());
-        const size_t n_pos = it_N - m_column_n_runs.begin();
-        
-        const size_t index = n_pos + m_column_n_runs.size() * name_pos;
-        m_results[index] = time;
-    }
-
     void draw() const
     {
+        const size_t max_name_len = strlen(*std::max_element(m_row_names.begin(), m_row_names.end(),
+            [](const char* a, const char* b) {
+                return strlen(b) > strlen(a);
+            }));
+
         for (const char* name : m_row_names)
         {
-            std::cout << std::setw(10) << name;
+            std::cout << std::setw(max_name_len) << name;
 
             for (const uint64_t& n : m_column_n_runs)
             {
-                std::cout << std::setw(10) << n;
-                std::cout << "(" << get(name, n) << ")";
+                std::cout << std::setw(10) << get(name, n);
             }
 
             std::cout << "\n";
         }
     }
 
-    uint64_t get(const char* name, size_t n_run) const
+    void set(const char* name, size_t n_run, size_t time)
+    {
+        this->get(name, n_run) = time;
+    }
+
+    const uint64_t& get(const char* name, size_t n_run) const
+    {
+        return const_cast<SpeedTable*>(this)->get(name, n_run);
+    }
+
+    uint64_t& get(const char* name, size_t n_run)
     {
         // find vertical position in the table
         auto it_name = std::find(m_row_names.begin(), m_row_names.end(), name);
@@ -106,77 +107,30 @@ struct RunSequenceScore
     std::vector<RunScore> runs;
 };
 
-
-
-void draw_table(const std::vector<RunSequenceScore>& resutls)
-{
-    for (const RunSequenceScore& sequence : resutls)
-    {
-        std::cout << std::setw(10) << sequence.name;
-
-        for (const auto& run : sequence.runs)
-        {
-            std::cout << std::setw(10) << run.timeNs;
-            std::cout << "(" << run.N << ")";
-        }
-
-        std::cout << "\n";
-    }
-}
-
 int main(int /*argc*/, char* /*argv*/[])
 {
-    std::cout << "Let the show begin..\n";
-
     std::vector<SortJobDescription> sortSeries{
         {"quick_sort", alex_sort},
         {"Alex_sort", alex_sort}
     };
 
     constexpr size_t N_MAX = 100000;
+    constexpr size_t N_MIN = 100;
     
-    std::vector<RunSequenceScore> resutls;
-    
-    // create
-    //for (const SortJobDescription& desc : sortSeries)
-    //{
-    //    resutls.push_back({ desc.name });
-    //    //std::vector<RunSequenceScore::RunScore>& sequence = resutls.back().runs;
-    //}
-
-    for (const SortJobDescription& desc : sortSeries)
-    {
-        resutls.emplace_back(desc.name);
-        RunSequenceScore& sequence = resutls.back();
-
-        const SortJobDescription::Sorter theSort = desc.sorter;
-        for (size_t n = 10; n <= N_MAX; n *= 10)
-        {
-            // Prepare
-            std::vector<int32_t> arrayToSort = generateRandomArray(n);
-            
-            // Act
-            // start measure
-            theSort(arrayToSort.data(), arrayToSort.size());
-
-            size_t timeNs = 100;
-            // end measure
-
-            sequence.runs.emplace_back(n, timeNs);
-        }
-    }
-
-
+    // agregate names of the algorithms
     std::vector<const char*> algo_names;
     for (const SortJobDescription& desc : sortSeries)
     {
         algo_names.push_back(desc.name);
     }
+    
+    // generate the Ns
     std::vector<size_t> algo_Ns;
-    for (uint64_t n = 10; n <= N_MAX; n *= 10)
+    for (uint64_t n = N_MIN; n <= N_MAX; n *= 10)
     {
         algo_Ns.push_back(n);
     }
+
     if (algo_Ns.back() != N_MAX)
     {
         algo_Ns.push_back(N_MAX);
@@ -184,20 +138,29 @@ int main(int /*argc*/, char* /*argv*/[])
 
     SpeedTable table(algo_names, algo_Ns);
 
+    // run alorithms
     for (const SortJobDescription& desc : sortSeries)
     {
         const SortJobDescription::Sorter theSort = desc.sorter;
-        for (uint64_t n = 10; n <= N_MAX; n *= 10)
+        for (uint64_t n = N_MIN; n <= N_MAX; n *= 10)
         {
             // Prepare
             std::vector<int32_t> arrayToSort = generateRandomArray(n);
 
             // Act
             // start measure
+            
+            // returns elapsed time in nanoseconds
+            using namespace std::chrono;
+            uint64_t start = duration_cast<nanoseconds>
+                (steady_clock::now().time_since_epoch()).count();
+
             theSort(arrayToSort.data(), arrayToSort.size());
 
-            size_t timeNs = 100;
-            // end measure
+            uint64_t end = duration_cast<nanoseconds>
+                (steady_clock::now().time_since_epoch()).count();
+
+            uint64_t timeNs = end - start;
 
             // record the results
             table.set(desc.name, n, timeNs);
@@ -205,8 +168,11 @@ int main(int /*argc*/, char* /*argv*/[])
     }
 
     // present the results
-    draw_table(resutls);
     table.draw();
 
     return 0;
 }
+
+    
+    // run something
+    
