@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 
 #include <algorithm>
 #include <chrono>
@@ -116,14 +117,14 @@ int main(int /*argc*/, char* /*argv*/[])
 
     constexpr size_t N_MAX = 100000;
     constexpr size_t N_MIN = 100;
-    
+
     // agregate names of the algorithms
     std::vector<const char*> algo_names;
     for (const SortJobDescription& desc : sortSeries)
     {
         algo_names.push_back(desc.name);
     }
-    
+
     // generate the Ns
     std::vector<size_t> algo_Ns;
     for (uint64_t n = N_MIN; n <= N_MAX; n *= 10)
@@ -149,7 +150,7 @@ int main(int /*argc*/, char* /*argv*/[])
 
             // Act
             // start measure
-            
+
             // returns elapsed time in nanoseconds
             using namespace std::chrono;
             uint64_t start = duration_cast<nanoseconds>
@@ -173,6 +174,5 @@ int main(int /*argc*/, char* /*argv*/[])
     return 0;
 }
 
-    
+
     // run something
-    
