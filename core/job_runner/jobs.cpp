@@ -1,11 +1,19 @@
 #include "jobs.hpp"
 
+#include <cassert>
+#include <cstring>
+
+#include <iostream>
+#include <iomanip>
+
+
 SpeedTable::SpeedTable(const std::vector<const char*>& names,
     const std::vector<size_t>& n_runs)
     : m_row_names(names)
     , m_column_n_runs(n_runs)
     , m_results(names.size()* n_runs.size(), 0)
 {}
+
 
 void SpeedTable::draw() const
 {

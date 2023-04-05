@@ -1,7 +1,4 @@
-
-#include <algorithm>
 #include <chrono>
-#include <ranges>
 #include <vector>
 
 #include "vt100.h"
@@ -10,7 +7,38 @@
 
 #include "jobs.hpp"
 
+std::vector<std::uint64_t> generate_n_list(std::uint64_t n_min, std::uint64_t n_max)
+{
+    std::vector<size_t> algo_Ns;
+    for (uint64_t n = n_min; n <= n_max; n *= 10)
+    {
+        algo_Ns.push_back(n);
+    }
 
+    if (algo_Ns.back() != n_max)
+    {
+        algo_Ns.push_back(n_max);
+    }
+    return algo_Ns;
+}
+
+/**
+ * @desc runs the functor and retuns elapsed time in misroseconds [us]
+ */
+template<typename TUnit = std::chrono::microseconds, typename F>
+uint64_t measure(F functor)
+{
+    using namespace std::chrono;
+    uint64_t start = duration_cast<TUnit>
+        (steady_clock::now().time_since_epoch()).count();
+
+    functor();
+
+    uint64_t end = duration_cast<TUnit>
+        (steady_clock::now().time_since_epoch()).count();
+
+    return end - start;
+}
 
 int main(int /*argc*/, char* /*argv*/[])
 {
@@ -19,27 +47,18 @@ int main(int /*argc*/, char* /*argv*/[])
         {"Alex_sort", alex_sort}
     };
 
-    constexpr size_t N_MAX = 100000;
     constexpr size_t N_MIN = 100;
+    constexpr size_t N_MAX = 1000000;
 
-    // agregate names of the algorithms
+    // agregate names of the algorithms in a vector
     std::vector<const char*> algo_names;
     for (const SortJobDescription& desc : sortSeries)
     {
         algo_names.push_back(desc.name);
     }
 
-    // generate the Ns
-    std::vector<size_t> algo_Ns;
-    for (uint64_t n = N_MIN; n <= N_MAX; n *= 10)
-    {
-        algo_Ns.push_back(n);
-    }
-
-    if (algo_Ns.back() != N_MAX)
-    {
-        algo_Ns.push_back(N_MAX);
-    }
+    // generate the Ns. This will aslo match the top row of the table
+    const std::vector<size_t> algo_Ns = generate_n_list(N_MIN, N_MAX);
 
     SpeedTable table(algo_names, algo_Ns);
 
@@ -53,22 +72,12 @@ int main(int /*argc*/, char* /*argv*/[])
             std::vector<int32_t> arrayToSort = generateRandomArray(n);
 
             // Act
-            // start measure
+            auto job = [&theSort, &arrayToSort]() {
+                theSort(arrayToSort.data(), arrayToSort.size());
+            };
+            uint64_t elapsed = measure<std::chrono::microseconds>(job);
 
-            // returns elapsed time in nanoseconds
-            using namespace std::chrono;
-            uint64_t start = duration_cast<nanoseconds>
-                (steady_clock::now().time_since_epoch()).count();
-
-            theSort(arrayToSort.data(), arrayToSort.size());
-
-            uint64_t end = duration_cast<nanoseconds>
-                (steady_clock::now().time_since_epoch()).count();
-
-            uint64_t timeNs = end - start;
-
-            // record the results
-            table.set(desc.name, n, timeNs);
+            table.set(desc.name, n, elapsed);
         }
     }
 
@@ -77,6 +86,3 @@ int main(int /*argc*/, char* /*argv*/[])
 
     return 0;
 }
-
-
-    // run something
