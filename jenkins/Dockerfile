@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.387.1
+FROM jenkins/jenkins:2.426.2-jdk17
 USER root
 RUN apt-get update
 RUN apt-get install -y lsb-release

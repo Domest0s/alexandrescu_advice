@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#  --rm \
+  # --rm \
 docker run \
-  --restart=on-failure \
   --name jenkins-blueocean \
+  --restart=on-failure \
   --detach \
   --network jenkins \
   --env DOCKER_HOST=tcp://docker:2376 \
@@ -13,8 +13,6 @@ docker run \
   --publish 50000:50000 \
   --volume jenkins-data:/var/jenkins_home \
   --volume jenkins-docker-certs:/certs/client:ro \
-  myjenkins-blueocean:latest 
-
-#  myjenkins-blueocean:2.375.3-1 
+  myjenkins-blueocean:latest
 
 
