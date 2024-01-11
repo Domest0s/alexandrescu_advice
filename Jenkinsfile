@@ -5,33 +5,36 @@ pipeline {
     }
 
     stages {
-        stage('checkout & clean') {
-            agent any
-            steps {
-                // sh "rm -rf *"
-                checkout scm
-                sh "./linux/clean.sh"
-            }
-        }
+        ansiColor('xterm') {
 
-        stage('configure') {
-            agent { label 'linux' }
-            steps {
-                sh "./linux/generate.sh"
+            stage('checkout & clean') {
+                agent any
+                steps {
+                    // sh "rm -rf *"
+                    checkout scm
+                    sh "./linux/clean.sh"
+                }
             }
-        }
 
-        stage('build') {
-            agent { label 'linux' }
-            steps {
-                sh "./linux/build.sh"
+            stage('configure') {
+                agent { label 'linux' }
+                steps {
+                    sh "./linux/generate.sh"
+                }
             }
-        }
 
-        stage('test') {
-            agent { label 'linux' }
-            steps {
-                sh "./linux/test.sh"
+            stage('build') {
+                agent { label 'linux' }
+                steps {
+                    sh "./linux/build.sh"
+                }
+            }
+
+            stage('test') {
+                agent { label 'linux' }
+                steps {
+                    sh "./linux/test.sh"
+                }
             }
         }
     }
