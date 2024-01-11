@@ -2,6 +2,7 @@ pipeline {
     agent none
     options {
         skipDefaultCheckout()
+        ansiColor('xterm')
     }
 
     stages {
@@ -17,9 +18,7 @@ pipeline {
         stage('configure') {
             agent { label 'linux' }
             steps {
-                ansiColor('xterm') {
-                    sh "./linux/generate.sh"
-                }
+                sh "./linux/generate.sh"
             }
         }
 
