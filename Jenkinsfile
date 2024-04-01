@@ -7,7 +7,7 @@ pipeline {
 
     agent {
         docker {
-            label '${params.cpuArch}'
+            label params.cpuArch
             image 'work_agent:WIP'
         }
     }
