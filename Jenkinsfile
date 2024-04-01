@@ -20,7 +20,6 @@ pipeline {
     stages {
         stage('checkout & clean') {
             steps {
-                echo "aget is running ${params.cpuArch} World!"
                 checkout scm
                 sh "./linux/clean.sh"
             }
