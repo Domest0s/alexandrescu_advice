@@ -10,9 +10,11 @@ set(CMAKE_CXX_EXTENSIONS no)
 if (MSVC)
     add_compile_options(/W4)
 else()
-    # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    add_compile_options(-Wall -Wextra -pedantic)
 endif()
+
+# lots of warnings and all warnings as errors
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 
 # global assembly settings ###

@@ -182,7 +182,7 @@ uint64_t measure(F functor)
 }
 
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
     // define what algorithms to run
     std::vector<SortDescriptor> algorithms {

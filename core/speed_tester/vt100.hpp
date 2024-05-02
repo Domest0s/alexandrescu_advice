@@ -60,25 +60,25 @@ const char* color(Color col)
     }
 }
 
-std::string move_up(unsigned int n)
+std::string move_up(size_t n)
 {
     if (n == 0) { return ""; }
     return "\033[" + std::to_string(n) + "A";
 }
 
-std::string move_down(unsigned int n)
+std::string move_down(size_t n)
 {
     if (n == 0) { return ""; }
     return "\033[" + std::to_string(n) + "B";
 }
 
-std::string move_forward(unsigned int n)
+std::string move_forward(size_t n)
 {
     if (n == 0) { return ""; }
     return "\033[" + std::to_string(n) + "C";
 }
 
-std::string move_backward(unsigned int n)
+std::string move_backward(size_t n)
 {
     if (n == 0) { return ""; }
     return "\033[" + std::to_string(n) + "D";

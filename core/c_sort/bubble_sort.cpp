@@ -126,7 +126,7 @@ void c_shaker_sort(int32_t* array, size_t size)
     bool sorted;
     do {
         sorted = true;
-        for (int i = 1; i < end; i++) {
+        for (size_t i = 1; i < end; i++) {
             if (array[i - 1] > array[i]) {
                 int x = array[i];
                 array[i] = array[i - 1];
@@ -140,7 +140,7 @@ void c_shaker_sort(int32_t* array, size_t size)
         }
 
         end--;
-        for (int i = end - 1; i > begin; i--) {
+        for (size_t i = end - 1; i > begin; i--) {
             if (array[i] > array[i + 1]) {
                 int x = array[i + 1];
                 array[i + 1] = array[i];
