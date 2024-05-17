@@ -63,7 +63,7 @@ std::vector<SpeedTestResult> allocateResutSlots(
 
     for (const SortDescriptor& alg : descriptors)
     {
-        resultSlots.push_back({ alg.name });
+        resultSlots.push_back({ alg.name, {}});
         std::vector<SpeedTestResult::Run>& runs = resultSlots.back().runs;
 
         for (size_t n = min; n <= max; n *= 10)
@@ -250,7 +250,7 @@ int main(int /*argc*/, char* /*argv*/[])
         no_workers = DEFAULT_WORKERS;
     }
 
-    for (int i = 0; i < no_workers; i++)
+    for (size_t i = 0; i < no_workers; i++)
     {
         workers.emplace_back(worker_routine, std::ref(tasks), &ticket_pool_mutex);
     }
