@@ -33,7 +33,7 @@ pipeline {
 
         stage('build') {
             steps {
-                sh "./linux/build.sh"
+                sh "./linux/compile.sh"
             }
         }
 
