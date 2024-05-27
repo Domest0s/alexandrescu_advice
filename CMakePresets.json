@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 16,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "linux_ninja",
+      "hidden": true,
+      "description": "commont Linux config using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build"
+    },
+    {
+      "name": "linux_debug",
+      "displayName": "Linux Ninja Debug",
+      "description": "Selects Debug build type for Ninja",
+      "inherits": "linux_ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        }
+      }
+    },
+    {
+      "name": "linux_release",
+      "displayName": "Linux Ninja Release",
+      "description": "Selects Release build type for Ninja",
+      "inherits": "linux_ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        }
+      }
+    },
+    {
+      "name": "windows_debug",
+      "displayName": "Windows Debug",
+      "description": "Windows Debug projects using Visual Studio compiler",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        },
+        "CMAKE_CONFIGURATION_TYPES": {
+          "type": "STRING",
+          "value": "Debug"
+        }
+      }
+    },
+    {
+      "name": "windows_release",
+      "displayName": "Windows Release",
+      "description": "Windows Debug projects using Visual Studio compiler",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        },
+        "CMAKE_CONFIGURATION_TYPES": {
+          "type": "STRING",
+          "value": "Release"
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux_debug",
+      "configurePreset": "linux_debug"
+    },
+    {
+      "name": "linux_release",
+      "configurePreset": "linux_release"
+    }
+  ]
+}

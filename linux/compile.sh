@@ -7,6 +7,7 @@ script_dir=$(dirname "${script_path}")
 
 
 # Act
-print_cyan "cmake --build ${build_dir}"
+command="cmake --build --preset=linux_${build_type}"
 
-cmake --build ${build_dir}
+print_cyan "${command}"
+${command}
