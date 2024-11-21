@@ -1,2 +1,6 @@
-I was inspired by Andrei to start on something. This is the something.  
-I found an old laptop next to the trash can and made it my CI server.  
+A small job-scheduling framework. Jenkins arm + x64
+
+Will we benefit from linking with "mold"?
+
+https://github.com/rui314/mold/releases
+
